@@ -6,8 +6,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <a href="{{ route('admin.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500">
-                    + Stwórz Nowy Quiz
+                <a href="{{ route('admin.create') }}" 
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest"
+                    style="background-color: green; color: white;"> + Stwórz Nowy Quiz
                 </a>
                 
                 <h3 class="mt-6 mb-4 text-lg font-bold">Lista Quizów</h3>

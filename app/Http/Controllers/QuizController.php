@@ -8,21 +8,23 @@ use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
+    //zwraca widok dashboard
     public function index() {
         $user = Auth::user();
         $myQuizzes = $user->quizzes;
-        // Zwracamy widok dashboard, który nadpiszemy w kroku z widokami
         return view('dashboard', compact('myQuizzes'));
     }
 
+    //dolaczanie do quizow
     public function join(Request $request) {
         $request->validate(['code' => 'required']);
-        $quiz = Quiz::where('code', $request->code)->first();
+        $quiz = Quiz::where('code', $request->code)->first();   //ORM szukanie danego quizu po kodzie
 
         if (!$quiz) {
             return back()->withErrors(['code' => 'Nieprawidłowy kod quizu.']);
         }
 
+        //jesli user nie jest przypisany do quizu to przypisuje
         if (!$quiz->users->contains(Auth::id())) {
             $quiz->users()->attach(Auth::id(), ['score' => null]);
         }
@@ -30,17 +32,19 @@ class QuizController extends Controller
         return redirect()->route('dashboard');
     }
 
+    //zwraca widok z danym quizem
     public function show(Quiz $quiz) {
-        // Blokada: user musi być przypisany do quizu
         if (!$quiz->users->contains(Auth::id())) abort(403);
         
         return view('quiz.show', compact('quiz'));
     }
 
+    //oblicza wynik i zapisuje
     public function submit(Request $request, Quiz $quiz) {
         $score = 0;
         $answers = $request->input('answers');
-
+        
+        //przejscie po pytaniach quizu i porownanie odpowiedzi usera z poprawnymi
         foreach ($quiz->questions as $question) {
             if (isset($answers[$question->id]) && $answers[$question->id] == $question->correct_answer) {
                 $score++;

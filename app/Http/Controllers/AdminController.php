@@ -9,23 +9,26 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    // Prosta metoda sprawdzająca uprawnienia (zamiast Middleware dla uproszczenia)
+    //sprawdza czy admin
     private function checkAdmin() {
         if (!Auth::user()->is_admin) abort(403, 'Brak dostępu do panelu administratora.');
     }
 
+    //zwraca widok ze wszystkimi quizami
     public function index() {
         $this->checkAdmin();
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::all(); //ORM pobierz wszystkie quizy
         return view('admin.index', compact('quizzes'));
     }
 
+    //zwraca widok tworzenia quizu
     public function create(Request $request) {
         $this->checkAdmin();
         $questionsCount = $request->input('count', 0);
         return view('admin.create', compact('questionsCount'));
     }
 
+    //zapisuje quiz i pytania do bazy danych
     public function store(Request $request) {
         $this->checkAdmin();
         
@@ -38,9 +41,10 @@ class AdminController extends Controller
 
         $quiz = new Quiz();
         $quiz->title = $request->title;
-        $quiz->code = Str::upper(Str::random(6)); // Kod np. X8A2B1
+        $quiz->code = Str::upper(Str::random(6));
         $quiz->save();
 
+        //zapisanie pytania i odpowiedzi
         foreach ($request->questions as $qData) {
             $quiz->questions()->create([
                 'content' => $qData['content'],
@@ -55,6 +59,7 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('status', 'Utworzono quiz!');
     }
 
+    //zwraca widok szczegolow quizu
     public function show(Quiz $quiz) {
         $this->checkAdmin();
         return view('admin.show', compact('quiz'));

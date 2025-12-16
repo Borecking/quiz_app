@@ -7,14 +7,6 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            
-            @if(Auth::user()->is_admin)
-                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
-                    <p class="font-bold">Jesteś Administratorem</p>
-                    <a href="{{ route('admin.index') }}" class="underline">Przejdź do Panelu Administratora</a>
-                </div>
-            @endif
-
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <h3 class="text-lg font-medium text-gray-900">Dołącz do Quizu</h3>
                 <form method="POST" action="{{ route('quiz.join') }}" class="mt-4">
@@ -39,7 +31,7 @@
                                 <strong>{{ $quiz->title }}</strong> 
                                 (Wynik: {{ $quiz->pivot->score !== null ? $quiz->pivot->score . ' pkt' : 'Brak' }})
                                 <a href="{{ route('quiz.show', $quiz->id) }}" class="text-indigo-600 hover:text-indigo-900 ml-2">
-                                    [Otwórz / Popraw]
+                                    [Rozwiąż]
                                 </a>
                             </li>
                         @endforeach

@@ -16,7 +16,10 @@
                         </div>
                     </div>
                 @endforeach
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Wyślij Odpowiedzi</button>
+                <button type="submit" 
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-md" 
+                        style="background-color: green; color: white;"> Wyślij Odpowiedzi
+                </button>
             </form>
         </div>
     </div>

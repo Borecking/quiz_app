@@ -10,7 +10,10 @@
                 <form method="GET" action="{{ route('admin.create') }}">
                     <label>Ile pytań ma mieć quiz?</label>
                     <input type="number" name="count" value="3" class="border-gray-300 rounded-md shadow-sm">
-                    <button type="submit" class="px-4 py-2 bg-gray-800 text-white rounded-md">Dalej</button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-gray-800 text-white rounded-md" 
+                            style="background-color: green; color: white;"> Dalej
+                    </button>
                 </form>
             @else
                 <form method="POST" action="{{ route('admin.store') }}">
@@ -42,7 +45,10 @@
                         </div>
                     @endfor
 
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Zapisz Quiz</button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md" 
+                            style="background-color: green; color: white;"> Zapisz Quiz
+                    </button>
                 </form>
             @endif
         </div>

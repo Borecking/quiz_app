@@ -7,12 +7,12 @@ class Quiz extends Model
 {
     protected $fillable = ['title', 'code'];
 
-    // Relacja: Quiz ma wiele pytań
+    //quiz ma wiele pytan
     public function questions() {
         return $this->hasMany(Question::class);
     }
 
-    // Relacja: Quiz ma wielu użytkowników (którzy dołączyli)
+    //wielu userow jest przypisanych do danego quizu
     public function users() {
         return $this->belongsToMany(User::class, 'quiz_user')->withPivot('score');
     }
