@@ -5,10 +5,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            
+            @if(session('status'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <a href="{{ route('admin.create') }}" 
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest"
-                    style="background-color: green; color: white;"> + Stwórz Nowy Quiz
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest"
+                   style="background-color: green; color: white;">
+                    + Stwórz Nowy Quiz
                 </a>
                 
                 <h3 class="mt-6 mb-4 text-lg font-bold">Lista Quizów</h3>
@@ -25,8 +33,20 @@
                         <tr>
                             <td class="border p-2">{{ $quiz->title }}</td>
                             <td class="border p-2 font-mono">{{ $quiz->code }}</td>
-                            <td class="border p-2">
+                            <td class="border p-2 flex gap-2">
                                 <a href="{{ route('admin.show', $quiz->id) }}" class="text-blue-600 underline">Szczegóły</a>
+                                
+                                <a href="{{ route('admin.edit', $quiz->id) }}" 
+                                   class="px-2 py-1 rounded text-white text-sm"
+                                   style="background-color: #d97706;">Edytuj</a>
+
+                                <form method="POST" action="{{ route('admin.destroy', $quiz->id) }}" onsubmit="return confirm('Czy na pewno chcesz usunąć ten quiz?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="px-2 py-1 rounded text-white text-sm"
+                                            style="background-color: red;">Usuń</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

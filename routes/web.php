@@ -23,6 +23,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
     Route::get('/admin/quiz/{quiz}', [AdminController::class, 'show'])->name('admin.show');
+    Route::get('/admin/quiz/{quiz}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('/admin/quiz/{quiz}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/quiz/{quiz}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     //profil z breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

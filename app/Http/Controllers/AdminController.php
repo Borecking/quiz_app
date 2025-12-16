@@ -64,4 +64,52 @@ class AdminController extends Controller
         $this->checkAdmin();
         return view('admin.show', compact('quiz'));
     }
+
+    //zwraca widok edytowania quizu
+    public function edit(Quiz $quiz) {
+        $this->checkAdmin();
+        // Ładujemy widok edycji i przekazujemy quiz
+        return view('admin.edit', compact('quiz'));
+    }
+
+    //aktualizuje quiz przy edytowaniu
+    public function update(Request $request, Quiz $quiz) {
+        $this->checkAdmin();
+
+        $request->validate([
+            'title' => 'required',
+            'questions' => 'required|array',
+            // Walidacja dla konkretnych ID pytań
+            'questions.*.content' => 'required',
+            'questions.*.correct' => 'required',
+        ]);
+
+        $quiz->title = $request->title;
+        $quiz->save();
+
+        foreach ($request->questions as $id => $qData) {
+            $question = \App\Models\Question::find($id);
+            if($question) {
+                $question->update([
+                    'content' => $qData['content'],
+                    'answer_a' => $qData['a'],
+                    'answer_b' => $qData['b'],
+                    'answer_c' => $qData['c'],
+                    'answer_d' => $qData['d'],
+                    'correct_answer' => $qData['correct'],
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.index')->with('status', 'Zaktualizowano quiz!');
+    }
+
+    //usuwa quiz
+    public function destroy(Quiz $quiz) {
+        $this->checkAdmin();
+        
+        $quiz->delete();
+
+        return redirect()->route('admin.index')->with('status', 'Quiz został usunięty.');
+    }
 }
