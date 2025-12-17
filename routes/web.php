@@ -9,7 +9,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Tylko dla zalogowanych
 Route::middleware(['auth', 'verified'])->group(function () {
     
     //uzytkownik

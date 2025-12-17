@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        //administrator
         User::create([
             'name' => 'Administrator',
             'email' => 'admin@email.com',
@@ -22,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        //zwykly uzytkownik
         User::create([
             'name' => 'Student',
             'email' => 'user@email.com',
@@ -36,7 +34,6 @@ class DatabaseSeeder extends Seeder
             'code'  => 'EUROPA',
         ]);
 
-        //pytania quiz 1
         $quizGeo->questions()->createMany([
             [
                 'content' => 'Stolicą Francji jest:',
@@ -70,7 +67,6 @@ class DatabaseSeeder extends Seeder
             'code'  => 'LARAVEL',
         ]);
 
-        //pytania quiz 2
         $quizPhp->questions()->createMany([
             [
                 'content' => 'Jakim znakiem rozpoczynają się zmienne w PHP?',

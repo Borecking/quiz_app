@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
-    //zwraca widok dashboard
     public function index() {
         $user = Auth::user();
         $myQuizzes = $user->quizzes;
         return view('dashboard', compact('myQuizzes'));
     }
 
-    //dolaczanie do quizow
     public function join(Request $request) {
         $request->validate(['code' => 'required']);
         $quiz = Quiz::where('code', $request->code)->first();   //ORM szukanie danego quizu po kodzie
@@ -32,14 +30,12 @@ class QuizController extends Controller
         return redirect()->route('dashboard');
     }
 
-    //zwraca widok z danym quizem
     public function show(Quiz $quiz) {
         if (!$quiz->users->contains(Auth::id())) abort(403);
         
         return view('quiz.show', compact('quiz'));
     }
 
-    //oblicza wynik i zapisuje
     public function submit(Request $request, Quiz $quiz) {
         $score = 0;
         $answers = $request->input('answers');

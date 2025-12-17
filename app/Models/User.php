@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin', // Upewnij się, że dodałeś to pole, jeśli wcześniej tego nie zrobiłeś
+        'is_admin',
     ];
 
     /**
@@ -46,10 +46,9 @@ class User extends Authenticatable
         ];
     }
 
-    // --- DODAJ TĘ METODĘ PONIŻEJ ---
     public function quizzes()
     {
-        // Relacja wiele-do-wielu z tabelą pivot 'quiz_user'
+        //user moze miec wiele quizow
         return $this->belongsToMany(Quiz::class, 'quiz_user')->withPivot('score');
     }
 }

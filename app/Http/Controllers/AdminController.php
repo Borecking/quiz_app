@@ -9,26 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    //sprawdza czy admin
     private function checkAdmin() {
         if (!Auth::user()->is_admin) abort(403, 'Brak dostępu do panelu administratora.');
     }
 
-    //zwraca widok ze wszystkimi quizami
     public function index() {
         $this->checkAdmin();
-        $quizzes = Quiz::all(); //ORM pobierz wszystkie quizy
+        $quizzes = Quiz::all();
         return view('admin.index', compact('quizzes'));
     }
 
-    //zwraca widok tworzenia quizu
     public function create(Request $request) {
         $this->checkAdmin();
         $questionsCount = $request->input('count', 0);
         return view('admin.create', compact('questionsCount'));
     }
 
-    //zapisuje quiz i pytania do bazy danych
     public function store(Request $request) {
         $this->checkAdmin();
         
@@ -44,7 +40,6 @@ class AdminController extends Controller
         $quiz->code = Str::upper(Str::random(6));
         $quiz->save();
 
-        //zapisanie pytania i odpowiedzi
         foreach ($request->questions as $qData) {
             $quiz->questions()->create([
                 'content' => $qData['content'],
@@ -59,27 +54,22 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('status', 'Utworzono quiz!');
     }
 
-    //zwraca widok szczegolow quizu
     public function show(Quiz $quiz) {
         $this->checkAdmin();
         return view('admin.show', compact('quiz'));
     }
 
-    //zwraca widok edytowania quizu
     public function edit(Quiz $quiz) {
         $this->checkAdmin();
-        // Ładujemy widok edycji i przekazujemy quiz
         return view('admin.edit', compact('quiz'));
     }
 
-    //aktualizuje quiz przy edytowaniu
     public function update(Request $request, Quiz $quiz) {
         $this->checkAdmin();
 
         $request->validate([
             'title' => 'required',
             'questions' => 'required|array',
-            // Walidacja dla konkretnych ID pytań
             'questions.*.content' => 'required',
             'questions.*.correct' => 'required',
         ]);
@@ -104,7 +94,6 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('status', 'Zaktualizowano quiz!');
     }
 
-    //usuwa quiz
     public function destroy(Quiz $quiz) {
         $this->checkAdmin();
         
